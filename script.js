@@ -21,18 +21,30 @@ submitButton.addEventListener("click", () => {
 });
 
 function checkEmail(email) {
-  const inputText = email.value;
-  const separator = inputText.indexOf("@");
-  const lastSeparator = inputText.lastIndexOf("@");
+  const emailAddress = email.value;
+  const atSignIndex = emailAddress.indexOf("@");
+  const lastAtSignIndex = emailAddress.lastIndexOf("@");
 
   //   if 2 or more '@' exists
-  if (separator !== lastSeparator) return false;
+  if (atSignIndex !== lastAtSignIndex) return false;
   //   if no '@' exist
-  if (separator === -1) return false;
+  if (atSignIndex === -1) return false;
   //   if '@' is first
-  if (!separator) return false;
+  if (!atSignIndex) return false;
   //   if '@' is last
-  if (separator + 1 >= inputText.length) return false;
+  if (atSignIndex + 1 >= emailAddress.length) return false;
+
+  //  get string after '@'
+  const domainText = emailAddress.slice(atSignIndex + 1);
+  let dotIndex = domainText.indexOf(".");
+  // if no '.' after '@'
+  if (dotIndex === -1) return false;
+
+  //  domain name < 2 or TLD length < 2
+  dotIndex = emailAddress.indexOf(".");
+  let lastDotIndex = emailAddress.lastIndexOf(".");
+  if (lastDotIndex >= emailAddress.length - 2 || dotIndex <= atSignIndex + 2)
+    return false;
 
   return true;
 }
